@@ -34,7 +34,7 @@ process TRIM {
 process ASSEMBLE {
 
     tag "Assemble on $sample_id"
-    cpus 1
+    cpus 2
     memory 7.GB
 
     publishDir "${params.outdir}/assemble", mode:'copy'
