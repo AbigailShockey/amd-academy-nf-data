@@ -35,6 +35,8 @@ process ASSEMBLE {
 
     tag "Assemble on $sample_id"
     cpus 1
+    memory 7.GB
+
     publishDir "${params.outdir}/assemble", mode:'copy'
 
     input:
@@ -44,11 +46,13 @@ process ASSEMBLE {
     tuple val(sample_id), path("${sample_id}.contigs.fa") 
 
     script:
+    def memory = task.memory.toGiga()
     """
     shovill \
       --R1 ${reads[0]} \
       --R2 ${reads[1]} \
       --cpus $task.cpus \
+      --ram $memory \
       --outdir ./${sample_id}_shovill_output \
       --force
     mv ${sample_id}_shovill_output/contigs.fa ${sample_id}.contigs.fa
