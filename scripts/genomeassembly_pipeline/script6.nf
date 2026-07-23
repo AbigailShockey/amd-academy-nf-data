@@ -3,7 +3,7 @@ nextflow.enable.dsl = 2
 /*
  * pipeline input parameters
  */
-params.reads = "data/bacteria/subsampled_reads/*_R{1,2}.fastq.gz"
+params.reads = "data/bacteria/subsampled_reads/*_{R1,R2}.fastq.gz"
 params.outdir = "results"
 
 /*
@@ -130,7 +130,7 @@ workflow {
   read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
 
   trimmed_reads_ch=TRIM(read_pairs_ch)
-  assemblies_ch=ASSEMBLE(trimmed_reads_ch)
+  ASSEMBLE(trimmed_reads_ch)
   fastqc_ch=FASTQC(read_pairs_ch)
   fastqc_trimmed_ch=FASTQC_TRIMMED(trimmed_reads_ch)
   multiqc_input_ch=fastqc_ch.mix(fastqc_trimmed_ch).collect()
